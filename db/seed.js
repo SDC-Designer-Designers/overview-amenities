@@ -1,6 +1,8 @@
 // randomly generate 100 listing's overviews and amenities
 
-const db = require('./index.js');
+const fs = require('fs');
+
+//
 
 const propertyHelper = ['Cabin', 'House', 'Condo/Apartment', 'Bungalow', 'Cottage', 'Studio', 'Villa', 'Resort']
 const amenitiesHelper = {
@@ -122,25 +124,187 @@ const createListingDetails = (listingID) => {
   return listing;
 }
 
-const createListings = () => {
-  var allListings = [];
-  var listingID = 1;
-  // for 100 times, invoke createListingDetails and push into result arr
-  for (var i = 0; i < 100; i++) {
-    allListings.push(createListingDetails(listingID));
-    listingID++;
+// const createListings = () => {
+//   var allListings = '';
+//   var listingID = 1;
+//   // for 100 times, invoke createListingDetails and push into result arr
+//   for (var i = 0; i < 10000; i++) {
+//     allListings += createListingDetails(listingID) + '\n';
+//     listingID++;
+//   }
+//   fs.writeFile('seedMongo.json', allListings, err => {
+//     if (err) {
+//       throw err
+//     } else {
+//       console.log('SUCCESS')
+//     }
+//   })
+// }
+// createListings();
+
+
+//
+// const cliProgress = require('cli-progress');
+// const bar = new cliProgress.SingleBar()
+// const stream = fs.createWriteStream('./seedMongo.csv')
+
+// var initial = 0
+// stream.on('err', () => {stream.once('drain', () => createListings(initial))})
+// stream.on('close', () => {
+//   bar.stop()
+//   console.log('finished writing')
+// })
+// bar.start(10000000, 0)
+
+
+// var createListings = listingID => {
+//   while (listingID !== 10000000) {
+//     stream.write(JSON.stringify(createListingDetails(listingID++)) + '\n')
+//     initial++
+//     bar.increment()
+//   }
+//   stream.end()
+// }
+
+// createListings(initial);
+
+
+
+const cliProgress = require('cli-progress');
+
+const count = 10000000
+const file = '10Mmongo.json'
+if (fs.existsSync(file)) fs.unlinkSync(file)
+
+// Setting stream path to file
+const stream = fs.createWriteStream(file)
+stream.on('err', err => console.error(err))
+stream.on('close', () => {
+  bar.stop()
+  console.log('finished writing')
+})
+
+// Completion Bar
+const bar = new cliProgress.SingleBar()
+bar.start(count, 0)
+
+overallWrite()
+
+// Writing all 10M seed files
+function overallWrite() {
+  let i = count
+  innerWrite()
+  function innerWrite() {
+    let ok = true
+    do {
+      i--
+      if (i === 0) {
+        stream.write(JSON.stringify(createListingDetails(i + 1)))
+        stream.end()
+      } else {
+        ok = stream.write(JSON.stringify(createListingDetails(i + 1)) + '\n')
+        bar.update(count - i + 1)
+      }
+    } while (i > 0 && ok)
+    if (i > 0) {
+      stream.once('drain', innerWrite)
+    }
   }
-  return allListings;
 }
 
-const insertListings = () => {
-  var listings = createListings();
-  db.listingDetails.insertMany(listings, (err, docs) => {
-    if (err) {
-      console.log('Can\'t insert listings', err);
-    } else {
-      console.log('Successfully inserted', docs);
-    }
-  })
-}
-insertListings();
+// const createListings = listingID => {
+//   while (listingID !== 1000000) {
+//     stream.write(createListingDetails(listingID) + '\n', , err => {
+//       if (err) {
+//         stream.once('drain', () => createListings(listingID))
+//       }
+//     })
+//     listingID++;
+//     bar.increment()
+//   }
+//   bar.stop()
+//   stream.end()
+// }
+// createListings(0);
+
+
+
+//LEGACY CODE
+// const createListings = () => {
+//   var allListings = [];
+//   var listingID = 1;
+//   // for 100 times, invoke createListingDetails and push into result arr
+//   for (var i = 0; i < 10000; i++) {
+//     allListings.push(createListingDetails(listingID));
+//     listingID++;
+//   }
+//   return allListings;
+// }
+
+
+
+// csvtojson().fromFile("seedMongo.csv").then(csvData => {
+//     console.log(csvData)
+// })
+
+// let stream = fs.createReadStream("bezkoder.csv");
+// let csvData = [];
+// let csvStream = fastcsv
+//   .parse()
+//   .on("data", function(data) {
+//     csvData.push({
+//       id: data[0],
+//       name: data[1],
+//       description: data[2],
+//       createdAt: data[3]
+//     });
+//   })
+//   .on("end", function() {
+//     // remove the first line: header
+//     csvData.shift();
+
+//     // save to the MongoDB database collection
+//   });
+
+// stream.pipe(csvStream);
+
+//
+// fs.readFile('./seedMongo.json', 'utf8', (err, data) => {
+//   if (err) {
+//     throw err;
+//   } else {
+//     console.log(data);
+//   }
+//   var json = JSON.parse(data);
+//   db.listingDetails.insert(json, function(err, doc) {
+//   if (err) {
+//     throw err;
+//   } else {
+//     console.log('Success', doc)
+//   }
+// })});
+
+
+// LEGACY CODE
+// const insertListings = () => {
+//   db.listingDetails.insert('./seedMongo.csv', (err, docs) => {
+//     if (err) {
+//       console.log('Can\'t insert listings', err);
+//     } else {
+//       console.log('Successfully inserted', docs);
+//     }
+//   })
+// }
+// insertListings();
+
+// const insertListings = () => {
+//   var listings = createListings();
+//   db.listingDetails.insertMany(listings, (err, docs) => {
+//     if (err) {
+//       console.log('Can\'t insert listings', err);
+//     } else {
+//       console.log('Successfully inserted', docs);
+//     }
+//   })
+// }
+// insertListings();
