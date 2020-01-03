@@ -3,6 +3,7 @@ import React from 'react';
 import Icon from './Icon.jsx';
 
 const OverviewEntry = ({ listing }) => {
+  console.log(listing)
   return (
     <div>
       <div className="overview_entry">
