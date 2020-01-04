@@ -1,10 +1,8 @@
 config:
   target: "http://localhost:3001"
-  http:
-    pool: 10
   phases:
     - duration: 10
-      arrivalRate: 250
+      arrivalRate: 850
 scenarios:
   - flow:
     - get:

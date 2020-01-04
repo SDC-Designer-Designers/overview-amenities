@@ -1,18 +1,18 @@
 config:
   target: "http://localhost:3001"
   phases:
-    - duration: 20
-      arrivalRate: 100
+    - duration: 10
+      arrivalRate: 850
 scenarios:
 - flow:
   - post:
       url: "/amenities"
-        json:
-          listing_ID: 10000001
-          propertyType: 'VILLA'
-          overview: {Sleeps: {icon: "fas", data: 3}}
-          amenities: {Featured: [{icon: "fas", data: "Heat"}, {icon: "has", data: "heighten"}]}
-          houseRules: {rules: ["No children", "No Smoking"]}
-          tags: ["No children", "No Smoking"]
+      json:
+        listing_ID: 10000001
+        propertyType: 'VILLA'
+        overview: {Sleeps: {icon: "fas", data: 3}}
+        amenities: {Featured: [{icon: "fas", data: "Heat"}, {icon: "has", data: "heighten"}]}
+        houseRules: {rules: ["No children", "No Smoking"]}
+        tags: ["No children", "No Smoking"]
     # Print the data we're sending while debugging the script:
   - log: "Sent a request to /amenities"
