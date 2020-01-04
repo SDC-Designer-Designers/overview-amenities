@@ -4,12 +4,6 @@ const path = require('path');
 const cors = require('cors');
 const morgan = require('morgan');
 
-// MONGO
-// const controller = require('../db/mongo/index.js');
-
-// POSTGRES
-const controller = require('../db/postgres/index.js');
-
 const app = express();
 
 const port = 3001;
@@ -23,8 +17,8 @@ app.use('/', express.static(path.join(__dirname, '../client/dist')));
 
 app.listen(port, () => console.log(`Connected to port ${port}`));
 
-// MONGO ------------------------------------------> MONGO
-
+// MONGO
+// const controller = require('../db/mongo/index.js');
 // app.get('/amenities/:id', (req, res) => {
 //   controller.getOneListing(req, (err, data) => {
 //     if (err) {
@@ -65,8 +59,8 @@ app.listen(port, () => console.log(`Connected to port ${port}`));
 //   })
 // })
 
-// POSTGRES ------------------------------------------> POSTGRES
-
+// POSTGRES
+const controller = require('../db/postgres/index.js');
 app.get('/amenities/:id', (req, res) => {
   controller.getOneListing(req)
   .then(data => res.status(200).send(data.rows))

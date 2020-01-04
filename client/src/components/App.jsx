@@ -27,7 +27,7 @@ class App extends React.Component {
           // this state should be set to currentListing: data
           // NOT currentListing: data[0] <-- this only works when operating
           // this module independent of the proxy
-          currentListing: data
+          currentListing: data[0]
         })
       })
       .catch((err) => console.log(err));

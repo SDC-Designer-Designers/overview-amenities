@@ -96,11 +96,21 @@ const helper = {
 
 module.exports = helper
 
+// POST
 // {
 // 	"listing_ID": 10000001,
 // 	"propertyType": "Cabin",
 // 	"overview":{"hi": "hi"},
 // 	"amenities":{"bye": "bye"},
 // 	"houseRules": {"si": "si"},
-	// "tags" : ["No Pets"]
+// 	"tags" : ["No Pets"]
+// }
+
+// PUT 
+// {
+// 	"propertyType": "FABIN",
+// 	"overview":{"hi": "hia"},
+// 	"amenities":{"bye": "byae"},
+// 	"houseRules": {"si": "sia"},
+//     "tags" : ["No Petsa"]
 // }
