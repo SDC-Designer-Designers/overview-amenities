@@ -1,0 +1,9 @@
+config:
+  target: "http://localhost:3001"
+  phases:
+    - duration: 10
+      arrivalRate: 850
+scenarios:
+  - flow:
+    - get:
+        url: "/amenities/1"

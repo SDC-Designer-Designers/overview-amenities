@@ -1,7 +1,6 @@
 // randomly generate 100 listing's overviews and amenities
 
 const fs = require('fs');
-// const db = require('./index.js');
 
 const propertyHelper = ['Cabin', 'House', 'Condo/Apartment', 'Bungalow', 'Cottage', 'Studio', 'Villa', 'Resort']
 const amenitiesHelper = {

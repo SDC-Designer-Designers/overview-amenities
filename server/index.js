@@ -4,12 +4,6 @@ const path = require('path');
 const cors = require('cors');
 const morgan = require('morgan');
 
-// MONGO
-// const controller = require('../db/mongo/index.js');
-
-// POSTGRES
-const controller = require('../db/postgres/index.js');
-
 const app = express();
 
 const port = 3001;
@@ -23,8 +17,34 @@ app.use('/', express.static(path.join(__dirname, '../client/dist')));
 
 app.listen(port, () => console.log(`Connected to port ${port}`));
 
-// MONGO ------------------------------------------> MONGO
+// POSTGRES
+const controller = require('../db/postgres/index.js');
+app.get('/amenities/:id', (req, res) => {
+  controller.getOneListing(req)
+  .then(data => res.status(200).send(data.rows))
+  .catch(err => res.status(404).send('GETTING user was unsuccessful'))
+})
 
+app.post('/amenities', (req, res) => {
+  controller.postListing(req)
+  .then(data => res.status(200).send('Success insert listing details'))
+  .catch(err => res.status(404).send('Failed insert was unsuccessful'))
+})
+
+app.delete('/amenities/:id', (req, res) => {
+  controller.deleteListing(req)
+  .then(data => res.status(200).send('Success delete listing details'))
+  .catch(err => res.status(404).send('Failed delete was unsuccessful'))
+})
+
+app.put('/amenities/:id', (req, res) => {
+  controller.updateListing(req)
+  .then(data => res.status(200).send('Success updating listing details'))
+  .catch(err => res.status(404).send('Failed updating was unsuccessful'))
+})
+
+// MONGO
+// const controller = require('../db/mongo/index.js');
 // app.get('/amenities/:id', (req, res) => {
 //   controller.getOneListing(req, (err, data) => {
 //     if (err) {
@@ -64,37 +84,3 @@ app.listen(port, () => console.log(`Connected to port ${port}`));
 //     }
 //   })
 // })
-
-// POSTGRES ------------------------------------------> POSTGRES
-
-app.get('/amenities/:id', (req, res) => {
-  controller.getOneListing(req)
-  .then(data => res.status(200).send(data.rows))
-  .catch(err => {
-    res.status(404).send('GETTING user was unsuccessful')
-  })
-})
-
-app.post('/amenities', (req, res) => {
-  controller.postListing(req)
-  .then(data => res.status(200).send('Success insert listing details'))
-  .catch(err => {
-    res.status(404).send('Failed insert was unsuccessful')
-  })
-})
-
-app.delete('/amenities/:id', (req, res) => {
-  controller.deleteListing(req)
-  .then(data => res.status(200).send('Success delete listing details'))
-  .catch(err => {
-    res.status(404).send('Failed delete was unsuccessful')
-  })
-})
-
-app.put('/amenities/:id', (req, res) => {
-  controller.updateListing(req)
-  .then(data => res.status(200).send('Success updating listing details'))
-  .catch(err => {
-    res.status(404).send('Failed updating was unsuccessful')
-  })
-})

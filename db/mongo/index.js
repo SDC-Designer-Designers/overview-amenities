@@ -69,38 +69,4 @@ const helper = {
   }
 }
 
-// MONGOOSE ---------------------------------------------------->
-// let getOneListing = (id) => {
-//   return new Promise((resolve, reject) => {
-//     listingDetails.find({ listing_ID: id }, (err, docs) => {
-//       if (err) {
-//         reject(err);
-//       } else {
-//         resolve(docs);
-//       }
-//     }).limit(1)
-//   })
-// }
-
-// let postListing = (body) => {
-//   return new Promise((resolve, reject) => {
-//     new listingDetails(body).save((err, docs) => {
-//       if (err) {
-//         reject(err);
-//       } else {
-//         resolve(docs);
-//       }
-//     })
-//   })
-// }
-
 module.exports = helper
-
-// {
-// 	"listing_ID": 10000001,
-// 	"propertyType": "Cabin",
-// 	"overview":{"hi": "hi"},
-// 	"amenities":{"bye": "bye"},
-// 	"houseRules": {"si": "si"},
-	// "tags" : ["No Pets"]
-// }
