@@ -1,6 +1,5 @@
 
 const fs = require('fs');
-// const db = require('./index.js');
 
 const propertyHelper = ['Cabin', 'House', 'Condo/Apartment', 'Bungalow', 'Cottage', 'Studio', 'Villa', 'Resort']
 const amenitiesHelper = {
@@ -122,11 +121,6 @@ const createListingDetails = (listingID) => {
   return listing;
 }
 
-// const createCsvStringifier = require('csv-writer').createObjectCsvStringifier;
-// const csvStringifier = createCsvStringifier({
-//   header: [{id:'listing_ID', title: 'listing_ID'}, {id:'propertyType', title:'propertyType'}, {id:'overview', title:'overview'}, {id:'amenities', title:'amenities'}, {id:'houseRules', title:'houseRules'}, {id:'tags', title: 'tags'}]
-// });
-
 // CREATING 10M JSON FILE ------------------------------------->
 // Setting stream path to file
 const file = 'db/postgres/10M.json'
@@ -155,13 +149,11 @@ function overallWrite() {
         var test = createListingDetails(i+1);
         test.tags = JSON.stringify(test.tags).replace('[', '{').replace(']', '}')
         stream.write(JSON.stringify(test))
-        // stream.write(JSON.stringify(createListingDetails(i + 1)))
         stream.end()
       } else {
         var test1 = createListingDetails(i+1);
         test1.tags = JSON.stringify(test1.tags).replace('[', '{').replace(']', '}')
         stream.write(JSON.stringify(test1) + '\n')
-        // stream.write(JSON.stringify(createListingDetails(i + 1)) + '\n')
         bar.update(count - i + 1)
       }
     } while (i > 0 && ok)
