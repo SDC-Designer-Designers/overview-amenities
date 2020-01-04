@@ -1,4 +1,5 @@
 node_modules
 foo.config
 db/postgres/10M.csv
+db/postgres/createcsv.js
 key.pem
