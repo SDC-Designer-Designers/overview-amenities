@@ -11,7 +11,6 @@ class App extends React.Component {
     this.state = {
       currentListing: null
     }
-
     this.randomListingId = this.randomListingId.bind(this);
   }
 
@@ -28,7 +27,7 @@ class App extends React.Component {
           // this state should be set to currentListing: data
           // NOT currentListing: data[0] <-- this only works when operating
           // this module independent of the proxy
-          currentListing: data[0]
+          currentListing: data
         })
       })
       .catch((err) => console.log(err));
