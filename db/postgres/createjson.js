@@ -147,7 +147,7 @@ const stringify = i => {
   strOverview = `\t${JSON.stringify(data.overview)}`;
   strAmenities = `\t${JSON.stringify(data.amenities)}`;
   strHouserules = `\t${JSON.stringify(data.houseRules)}`
-  strTags = `\t${JSON.stringify(data.tags)}`.replace('[', '{').replace(']', '}')
+  strTags = `\t{${JSON.stringify(data.tags).substring(1, data.tags.length - 1)}}`
   str = strID + strProperty + strOverview + strAmenities + strHouserules + strTags + '\n';
   return str;
 }
@@ -162,7 +162,7 @@ function innerWrite() {
     } else {
       stream.write(stringify(i))
       bar.update(count - i + 1)
-    }
+    } 
   } while (i > 0 && ok)
   if (i > 0) {
     stream.once('drain', innerWrite)
