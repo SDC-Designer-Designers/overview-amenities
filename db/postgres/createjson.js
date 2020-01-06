@@ -123,7 +123,7 @@ const createListingDetails = (listingID) => {
 
 // CREATING 10M JSON FILE ------------------------------------->
 // Setting stream path to file
-const file = 'db/postgres/10M.json'
+const file = 'db/postgres/10M.csv'
 const stream = fs.createWriteStream(file)
 if (fs.existsSync(file)) fs.unlinkSync(file)
 stream.on('err', err => console.error(err))
@@ -138,28 +138,35 @@ const count = 10000000
 const bar = new cliProgress.SingleBar()
 bar.start(count, 0)
 
-function overallWrite() {
-  let i = count
-  innerWrite()
-  function innerWrite() {
-    let ok = true
-    do {
-      i--
-      if (i === 0) {
-        var test = createListingDetails(i+1);
-        test.tags = JSON.stringify(test.tags).replace('[', '{').replace(']', '}')
-        stream.write(JSON.stringify(test))
-        stream.end()
-      } else {
-        var test1 = createListingDetails(i+1);
-        test1.tags = JSON.stringify(test1.tags).replace('[', '{').replace(']', '}')
-        stream.write(JSON.stringify(test1) + '\n')
-        bar.update(count - i + 1)
-      }
-    } while (i > 0 && ok)
-    if (i > 0) {
-      stream.once('drain', innerWrite)
+let i = count
+
+const stringify = i => {
+  var data  = createListingDetails(i+1);
+  strID = JSON.stringify(data.listing_ID);
+  strProperty = `\t${data.propertyType}`
+  strOverview = `\t${JSON.stringify(data.overview)}`;
+  strAmenities = `\t${JSON.stringify(data.amenities)}`;
+  strHouserules = `\t${JSON.stringify(data.houseRules)}`
+  strTags = `\t${JSON.stringify(data.tags)}`.replace('[', '{').replace(']', '}')
+  str = strID + strProperty + strOverview + strAmenities + strHouserules + strTags + '\n';
+  return str;
+}
+
+function innerWrite() {
+  let ok = true
+  do {
+    i--
+    if (i === 0) {
+      stream.write(stringify(i))
+      stream.end()
+    } else {
+      stream.write(stringify(i))
+      bar.update(count - i + 1)
     }
+  } while (i > 0 && ok)
+  if (i > 0) {
+    stream.once('drain', innerWrite)
   }
 }
-overallWrite()
+
+innerWrite()
