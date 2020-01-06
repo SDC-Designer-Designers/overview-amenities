@@ -168,5 +168,6 @@ function innerWrite() {
     stream.once('drain', innerWrite)
   }
 }
+stream.on('error', err => console.log('error', err.message))
 
 innerWrite()
