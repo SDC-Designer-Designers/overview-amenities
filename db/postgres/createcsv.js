@@ -140,7 +140,7 @@ bar.start(count, 0)
 
 let i = count
 
-const stringify = i => {
+function stringify(i) {
   var data  = createListingDetails(i+1);
   strID = JSON.stringify(data.listing_ID);
   strProperty = `\t${data.propertyType}`
