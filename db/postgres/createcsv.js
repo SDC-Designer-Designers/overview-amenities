@@ -142,46 +142,26 @@ let i = 0
 
 function stringify(i) {
   var data  = createListingDetails(i);
-  strID = JSON.stringify(data.listing_ID);
+  strID = data.listing_ID;
   strProperty = `\t${data.propertyType}`
   strOverview = `\t${JSON.stringify(data.overview)}`;
   strAmenities = `\t${JSON.stringify(data.amenities)}`;
   strHouserules = `\t${JSON.stringify(data.houseRules)}`
   strTags = `\t${JSON.stringify(data.tags)}`.replace('[', '{').replace(']', '}')
-  str = strID + strProperty + strOverview + strAmenities + strHouserules + strTags + '\n';
+  str = strID + strProperty + strOverview + strAmenities + strHouserules + strTags;
   return str;
 }
-
-// function innerWrite() {
-//   let ok = true
-//   do {
-//     i--
-//     if (i === 0) {
-//       ok = stream.write(stringify(i))
-//       stream.end()
-//     } else {
-//       stream.write(stringify(i))
-//       // if (i % 10000 === 0) {
-//       //   console.log(i)
-//       // }
-//       bar.update(count - i + 1)
-//     } 
-//   } while (i > 0 && ok)
-//   if (i > 0) {
-//     stream.once('drain', innerWrite)
-//   }
-// }
 
 function innerWrite() {
   let ok = true
   for (i; i < count; i++) {
     if (ok) {
       if (i === count - 1) {
-        ok = stream.write(JSON.stringify(stringify(i + 1)))
+        ok = stream.write(stringify(i + 1))
         bar.update(i + 1)
         stream.end()
       } else {
-        ok = stream.write(JSON.stringify(stringify(i + 1)) + '\n')
+        ok = stream.write(stringify(i + 1) + '\n')
         bar.update(i + 1)
       }
     } else {
