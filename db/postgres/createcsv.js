@@ -133,10 +133,10 @@ stream.on('close', () => {
 })
 
 // Completion Bar
-// const cliProgress = require('cli-progress');
+const cliProgress = require('cli-progress');
 const count = 10000000
-// const bar = new cliProgress.SingleBar()
-// bar.start(count, 0)
+const bar = new cliProgress.SingleBar()
+bar.start(count, 0)
 
 let i = count
 
@@ -157,14 +157,14 @@ function innerWrite() {
   do {
     i--
     if (i === 0) {
-      stream.write(stringify(i))
+      ok = stream.write(stringify(i))
       stream.end()
     } else {
       stream.write(stringify(i))
-      if (i % 10000 === 0) {
-        console.log(i)
-      }
-      // bar.update(count - i + 1)
+      // if (i % 10000 === 0) {
+      //   console.log(i)
+      // }
+      bar.update(count - i + 1)
     } 
   } while (i > 0 && ok)
   if (i > 0) {
