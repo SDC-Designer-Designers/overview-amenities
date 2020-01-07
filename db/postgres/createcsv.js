@@ -138,7 +138,7 @@ const count = 10000000
 const bar = new cliProgress.SingleBar()
 bar.start(count, 0)
 
-let i = count
+let i = 0
 
 function stringify(i) {
   var data  = createListingDetails(i+1);
@@ -152,23 +152,42 @@ function stringify(i) {
   return str;
 }
 
+// function innerWrite() {
+//   let ok = true
+//   do {
+//     i--
+//     if (i === 0) {
+//       ok = stream.write(stringify(i))
+//       stream.end()
+//     } else {
+//       stream.write(stringify(i))
+//       // if (i % 10000 === 0) {
+//       //   console.log(i)
+//       // }
+//       bar.update(count - i + 1)
+//     } 
+//   } while (i > 0 && ok)
+//   if (i > 0) {
+//     stream.once('drain', innerWrite)
+//   }
+// }
+
 function innerWrite() {
   let ok = true
-  do {
-    i--
-    if (i === 0) {
-      ok = stream.write(stringify(i))
-      stream.end()
+  for (i; i < count; i++) {
+    if (ok) {
+      if (i === count - 1) {
+        ok = stream.write(JSON.stringify(stringify(i + 1)))
+        bar.update(i + 1)
+        stream.end()
+      } else {
+        ok = stream.write(JSON.stringify(stringify(i + 1)) + '\n')
+        bar.update(i + 1)
+      }
     } else {
-      stream.write(stringify(i))
-      // if (i % 10000 === 0) {
-      //   console.log(i)
-      // }
-      bar.update(count - i + 1)
-    } 
-  } while (i > 0 && ok)
-  if (i > 0) {
-    stream.once('drain', innerWrite)
+      stream.once('drain', innerWrite)
+      break
+    }
   }
 }
 
