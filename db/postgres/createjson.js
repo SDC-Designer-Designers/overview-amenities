@@ -147,7 +147,7 @@ const stringify = i => {
   strOverview = `\t${JSON.stringify(data.overview)}`;
   strAmenities = `\t${JSON.stringify(data.amenities)}`;
   strHouserules = `\t${JSON.stringify(data.houseRules)}`
-  strTags = `\t{${JSON.stringify(data.tags).substring(1, data.tags.length - 1)}}`
+  strTags = `\t${JSON.stringify(data.tags)}`.replace('[', '{').replace(']', '}')
   str = strID + strProperty + strOverview + strAmenities + strHouserules + strTags + '\n';
   return str;
 }
@@ -168,6 +168,5 @@ function innerWrite() {
     stream.once('drain', innerWrite)
   }
 }
-stream.on('error', err => console.log('error', err.message))
 
 innerWrite()
