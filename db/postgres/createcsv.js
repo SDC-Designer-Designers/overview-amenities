@@ -141,7 +141,7 @@ bar.start(count, 0)
 let i = 0
 
 function stringify(i) {
-  var data  = createListingDetails(i+1);
+  var data  = createListingDetails(i);
   strID = JSON.stringify(data.listing_ID);
   strProperty = `\t${data.propertyType}`
   strOverview = `\t${JSON.stringify(data.overview)}`;
