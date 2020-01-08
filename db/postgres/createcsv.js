@@ -134,7 +134,7 @@ stream.on('close', () => {
 
 // Completion Bar
 const cliProgress = require('cli-progress');
-const count = 10000000
+const count = 1000
 const bar = new cliProgress.SingleBar()
 bar.start(count, 0)
 
