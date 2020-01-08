@@ -1,5 +1,7 @@
 const {Client} = require('pg');
-const connectionString = 'postgres://ubuntu:password@54.193.71.205:5432/sdcamenities';
+const config = require('../../config')
+const connectionString = `postgres://ubuntu:${config.password}@${config.ip}/${config.database}`;
+
 const db = new Client({
     connectionString: connectionString
 })

@@ -2,3 +2,4 @@ node_modules
 foo.config
 db/postgres/10M.csv
 key.pem
+config.js
