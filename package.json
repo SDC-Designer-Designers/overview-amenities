@@ -6,17 +6,16 @@
   "scripts": {
     "build": "webpack -w",
     "start": "nodemon server/index.js",
-
     "createjsonM": "node db/mongo/createjson.js",
     "seedM": "mongoimport --db amenities-overview --collection listingdetails --type json --file db/mongo/10M.json --numInsertionWorkers 8",
     "createjsonM:seedM": "npm run createjsonM && npm run seedM",
-
     "createcsvP": "node db/postgres/createcsv.js",
     "createschemaP": "psql -f db/postgres/schema.sql",
     "seedP": "psql -f db/postgres/seedPg.sql",
     "createschemaP:seedP": "npm run createschemaP && npm run seedP",
-    
-    "createcsvP:createschemaP:seedP": "npm run createcsvP && npm run createschemaP && npm run seedP"
+    "createcsvP:createschemaP:seedP": "npm run createcsvP && npm run createschemaP && npm run seedP",
+    "benchGet": "artillery run benchmark/get.yml",
+    "benchPost": "artillery run benchmark/post.yml"
   },
   "repository": {
     "type": "git",
@@ -29,6 +28,7 @@
   },
   "homepage": "https://github.com/hrla33-falcons/overview-amenities#readme",
   "dependencies": {
+    "artillery": "^1.6.0-29",
     "axios": "^0.19.0",
     "body-parser": "^1.19.0",
     "cli-progress": "^3.4.0",
