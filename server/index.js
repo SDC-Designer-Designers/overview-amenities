@@ -9,7 +9,6 @@ const app = express();
 const port = 3001;
 
 app.use(cors());
-
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -18,12 +17,22 @@ app.use('/', express.static(path.join(__dirname, '../client/dist')));
 app.listen(port, () => console.log(`Connected to port ${port}`));
 
 // POSTGRES
-const controller = require('../db/postgres/index.js');
+
+// USING PG PROMISE
+const dbPromise = require('../db/postgres/dbPromiseConnection').db
 app.get('/amenities/:id', (req, res) => {
-  controller.getOneListing(req)
-  .then(data => res.status(200).send(data.rows))
-  .catch(err => res.status(404).send('GETTING user was unsuccessful'))
+  var id = req.params.id;
+  dbPromise.any(`SELECT * from amenities where listing_id=$1`, [id])
+  .then(result => res.status(200).send(result))
+  .catch(err => res.status(404).send(err))
 })
+
+const controller = require('../db/postgres/index.js');
+// app.get('/amenities/:id', (req, res) => {
+//   controller.getOneListing(req)
+//   .then(data => res.status(200).send(data.rows))
+//   .catch(err => res.status(404).send('GETTING user was unsuccessful'))
+// })
 
 app.post('/amenities', (req, res) => {
   controller.postListing(req)
